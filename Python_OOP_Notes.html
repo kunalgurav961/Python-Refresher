@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Python OOP Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--void:#040506;--ink:#07080a;--obs:#111214;--graph:#1b1c1e;--smoke:#6a6b6c;--ash:#9c9c9d;--mist:#e6e6e6;--iron:#454647;--white:#fff;--coral:#ff6363;--ember:#452324;--line:#363739;
+--key:rgba(255,255,255,.05) 0 1px 0 0 inset,rgba(255,255,255,.25) 0 0 0 1px,rgba(0,0,0,.2) 0 -1px 0 0 inset;
+--f:'Inter',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;--m:'Geist Mono','JetBrains Mono',Menlo,Monaco,monospace;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{margin:0;background:var(--void);color:var(--ash);font:16px/1.6 var(--f);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:260px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;padding:32px 16px;border-right:1px solid var(--graph);background:rgba(4,5,6,.8);backdrop-filter:blur(48px)}
+.logo{display:flex;align-items:center;gap:10px;color:var(--white);font-weight:500;font-size:14px;padding:0 8px}
+.diamond{width:12px;height:12px;background:var(--coral);transform:rotate(45deg);border-radius:2px}
+.sub{font:400 11px var(--m);color:var(--smoke);padding:4px 8px 0 30px;letter-spacing:.05em}
+.grp{font:500 10px var(--m);letter-spacing:.08em;text-transform:uppercase;color:var(--smoke);padding:0 8px;margin:24px 0 8px}
+.nav a{display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;color:var(--ash);text-decoration:none;font-size:13px;font-weight:500;transition:.15s}
+.nav a:hover{color:var(--white);background:rgba(255,255,255,.04)}
+.nav a.on{color:var(--white);background:var(--obs);box-shadow:var(--key)}
+.nav b{font:400 10px var(--m);width:20px;height:20px;border-radius:6px;background:var(--graph);display:grid;place-items:center;color:var(--ash)}
+main{flex:1;min-width:0;padding:0 56px 96px}.inner{max-width:880px;margin:0 auto}
+.hero{position:relative;padding:96px 0 56px;overflow:hidden;border-bottom:1px solid var(--graph);margin-bottom:80px}
+.hero::before{content:"";position:absolute;inset:-60px -200px auto;height:380px;z-index:-1;background:radial-gradient(ellipse at 50% 26%,rgba(4,63,150,.7),rgba(6,18,37,.25) 60%,transparent 75%)}
+.hero::after{content:"";position:absolute;top:30px;right:-40px;width:300px;height:90px;z-index:-1;background:var(--coral);filter:blur(60px);opacity:.55;transform:rotate(-24deg)}
+.eyebrow{font:500 11px var(--m);letter-spacing:.07em;text-transform:uppercase;color:var(--ash);margin-bottom:16px}
+h1{font-size:clamp(36px,5.5vw,56px);font-weight:400;line-height:1.1;letter-spacing:.004em;color:var(--white);margin:0 0 24px;text-wrap:balance}
+.lead{max-width:520px;margin:0 0 24px}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{font:400 12px var(--m);color:var(--ash);border:1px solid var(--line);border-radius:9999px;padding:2px 12px;text-decoration:none;transition:.15s}
+a.tag:hover{color:var(--white);border-color:var(--ash)}
+section{margin-bottom:96px}
+.sh{display:flex;gap:16px;align-items:flex-start;margin-bottom:24px}
+.num{font:300 48px/1 var(--m);color:var(--graph)}
+h2{font-size:32px;font-weight:500;line-height:1.15;color:var(--white);margin:0}
+.st{font-size:14px;color:var(--smoke);margin-top:4px}
+h3{font-size:20px;font-weight:500;color:var(--white);margin:32px 0 8px;letter-spacing:.01em}
+p{margin:0 0 16px;max-width:68ch}
+code{font:400 12.5px var(--m);color:var(--white);background:var(--graph);border-radius:6px;padding:1px 6px}
+.card{background:var(--ink);border-radius:16px;padding:24px;box-shadow:var(--key);margin:16px 0}
+.card .l{font:500 10px var(--m);letter-spacing:.08em;text-transform:uppercase;color:var(--smoke);margin-bottom:8px}
+.card p:last-child{margin:0}
+.warm{background:var(--ember);box-shadow:none;border:1px solid rgba(255,99,99,.25)}.warm .l{color:var(--coral)}.warm p{color:var(--mist)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.grid .card{margin:0}
+.code{border-radius:12px;overflow:hidden;background:var(--ink);margin:16px 0;box-shadow:var(--key)}
+.ch{display:flex;justify-content:space-between;align-items:center;padding:8px 16px;border-bottom:1px solid var(--graph)}
+.ch span{font:400 11px var(--m);color:var(--smoke);text-transform:uppercase;letter-spacing:.06em}
+.ch button{font:500 12px var(--f);background:var(--mist);color:var(--iron);border:0;border-radius:8px;padding:3px 10px;cursor:pointer}
+.ch button:hover{background:var(--white)}
+pre{margin:0;padding:16px 20px;overflow-x:auto;font:400 13px/1.75 var(--m);color:var(--mist);tab-size:4}
+.k{color:#c9a7ff}.s{color:#59d499}.c{color:var(--smoke);font-style:italic}.n{color:#63a1ff}.d{color:var(--coral)}.f{color:#56c2ff}
+.out{border-top:1px solid var(--graph);background:var(--void)}.out pre{color:var(--ash);font-size:12.5px}
+.tw{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;border:1px solid var(--line);border-radius:12px}
+th{font:500 11px var(--m);text-transform:uppercase;letter-spacing:.06em;color:var(--ash);background:var(--obs);text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+td{padding:10px 14px;border-bottom:1px solid var(--graph);vertical-align:top}tr:last-child td{border:0}
+td:first-child{white-space:nowrap}
+footer{font:400 12px var(--m);color:var(--smoke);text-align:center;padding-top:24px;border-top:1px solid var(--graph)}
+@media(max-width:900px){.sidebar{display:none}main{padding:0 20px 64px}.grid{grid-template-columns:1fr}.hero{padding-top:56px}}
+</style></head><body>
+<div class="layout">
+<nav class="sidebar" aria-label="Sections">
+  <div class="logo"><span class="diamond"></span>Python OOP</div>
+  <div class="sub">Beginner notes</div>
+  <div class="nav">
+    <div class="grp">Basics</div>
+    <a href="#basics" class="on"><b>1</b>Classes &amp; Objects</a>
+    <a href="#methods"><b>2</b>Method Types</a>
+    <div class="grp">Four pillars</div>
+    <a href="#encap"><b>3</b>Encapsulation</a>
+    <a href="#inherit"><b>4</b>Inheritance</a>
+    <a href="#poly"><b>5</b>Polymorphism</a>
+    <a href="#abstract"><b>6</b>Abstraction</a>
+    <div class="grp">Going further</div>
+    <a href="#decor"><b>7</b>Decorators</a>
+    <div class="grp">Wrap up</div>
+    <a href="#cheat"><b>8</b>Cheat Sheet</a>
+  </div>
+</nav>
+<main><div class="inner">
+
+<header class="hero">
+  <div class="eyebrow">Python · Beginner notes</div>
+  <h1>Object-oriented programming, kept simple.</h1>
+  <p class="lead">Classes, objects, the four pillars, method types and the decorators you meet every day. Short explanations, small examples, no advanced detours.</p>
+  <div class="tags">
+    <a class="tag" href="#encap">Encapsulation</a><a class="tag" href="#inherit">Inheritance</a><a class="tag" href="#poly">Polymorphism</a><a class="tag" href="#abstract">Abstraction</a><span class="tag">Python 3.10+</span>
+  </div>
+</header>
+
+<section id="basics">
+  <div class="sh"><div class="num">01</div><div><h2>Classes &amp; Objects</h2><div class="st">The blueprint and the things built from it</div></div></div>
+  <div class="grid">
+    <div class="card"><div class="l">Class</div><p>A blueprint. It describes what data something has and what it can do.</p></div>
+    <div class="card"><div class="l">Object</div><p>One real thing built from the blueprint. You can make as many as you like.</p></div>
+  </div>
+  <div class="code"><div class="ch"><span>basics.py</span><button onclick="cp(this)">copy</button></div>
+<pre data-py>class Dog:
+    species = "Canine"              # class attribute: shared by all dogs
+
+    def __init__(self, name, age):  # runs when an object is created
+        self.name = name            # instance attributes: one per object
+        self.age = age
+
+    def bark(self):
+        return f"{self.name} says Woof!"
+
+    def __str__(self):              # what print() shows
+        return f"{self.name} ({self.age})"
+
+d1 = Dog("Tommy", 3)
+d2 = Dog("Bruno", 5)
+print(d1.bark())
+print(d2)</pre>
+  <div class="out"><pre>Tommy says Woof!
+Bruno (5)</pre></div></div>
+  <div class="card"><div class="l">What is self?</div><p><code>self</code> is the object the method is being called on. When you write <code>d1.bark()</code>, Python quietly passes <code>d1</code> as <code>self</code>. It is only a naming habit, but always follow it.</p></div>
+</section>
+
+<section id="methods">
+  <div class="sh"><div class="num">02</div><div><h2>Method Types</h2><div class="st">Instance, class and static methods</div></div></div>
+  <div class="tw"><table>
+    <tr><th>Type</th><th>First argument</th><th>Use it when</th></tr>
+    <tr><td>Instance</td><td><code>self</code></td><td>You need one object's data. The default kind.</td></tr>
+    <tr><td>Class</td><td><code>cls</code></td><td>You need class-level data, or an alternative constructor.</td></tr>
+    <tr><td>Static</td><td>none</td><td>A helper that fits the class topic but needs no object or class data.</td></tr>
+  </table></div>
+  <div class="code"><div class="ch"><span>methods.py</span><button onclick="cp(this)">copy</button></div>
+<pre data-py>class Student:
+    school = "ABC School"
+
+    def __init__(self, name, marks):
+        self.name = name
+        self.marks = marks
+
+    def result(self):                   # instance method
+        return "Pass" if self.marks &gt;= 40 else "Fail"
+
+    @classmethod
+    def from_string(cls, text):         # alternative constructor
+        name, marks = text.split("-")
+        return cls(name, int(marks))
+
+    @staticmethod
+    def is_valid(marks):                # no self, no cls
+        return 0 &lt;= marks &lt;= 100
+
+s = Student.from_string("Aman-72")
+print(s.name, s.result())
+print(Student.is_valid(120))</pre>
+  <div class="out"><pre>Aman Pass
+False</pre></div></div>
+</section>
+
+<section id="encap">
+  <div class="sh"><div class="num">03</div><div><h2>Encapsulation</h2><div class="st">Pillar 1 · Keep data safe inside the object</div></div></div>
+  <p>Bundle data and the methods that use it together, and control who can touch the data. Python uses naming conventions instead of strict locks.</p>
+  <div class="tw"><table>
+    <tr><th>Style</th><th>Meaning</th></tr>
+    <tr><td><code>name</code></td><td>Public. Anyone can use it.</td></tr>
+    <tr><td><code>_name</code></td><td>Protected by convention. "Please don't touch from outside."</td></tr>
+    <tr><td><code>__name</code></td><td>Private. Python renames it internally to make accidental access hard.</td></tr>
+  </table></div>
+  <div class="code"><div class="ch"><span>encapsulation.py</span><button onclick="cp(this)">copy</button></div>
+<pre data-py>class BankAccount:
+    def __init__(self, balance):
+        self.__balance = balance        # private
+
+    def deposit(self, amount):
+        if amount &gt; 0:
+            self.__balance += amount
+
+    def get_balance(self):
+        return self.__balance
+
+acc = BankAccount(1000)
+acc.deposit(500)
+print(acc.get_balance())
+print(acc.__balance)                    # error: no direct access</pre>
+  <div class="out"><pre>1500
+AttributeError: 'BankAccount' object has no attribute '__balance'</pre></div></div>
+</section>
+
+<section id="inherit">
+  <div class="sh"><div class="num">04</div><div><h2>Inheritance</h2><div class="st">Pillar 2 · Reuse code from a parent class</div></div></div>
+  <p>A child class gets everything the parent has and can add or change things. Use <code>super()</code> to call the parent's version.</p>
+  <div class="code"><div class="ch"><span>inheritance.py</span><button onclick="cp(this)">copy</button></div>
+<pre data-py>class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def eat(self):
+        print(f"{self.name} is eating")
+
+class Dog(Animal):                      # Dog inherits from Animal
+    def __init__(self, name, breed):
+        super().__init__(name)          # reuse the parent's setup
+        self.breed = breed
+
+    def bark(self):
+        print("Woof!")
+
+d = Dog("Tommy", "Labrador")
+d.eat()                                 # inherited
+d.bark()                                # its own</pre>
+  <div class="out"><pre>Tommy is eating
+Woof!</pre></div></div>
+  <div class="grid">
+    <div class="card"><div class="l">Single</div><p><code>class B(A)</code> has one parent.</p></div>
+    <div class="card"><div class="l">Multiple</div><p><code>class C(A, B)</code> has two parents. Python checks A first, then B.</p></div>
+  </div>
+  <div class="card"><div class="l">Tip</div><p>Ask "is a?" before inheriting. A Dog <em>is an</em> Animal, so inheritance fits. A Car is not an Engine, it <em>has</em> an Engine, so keep an engine object inside Car instead.</p></div>
+</section>
+
+<section id="poly">
+  <div class="sh"><div class="num">05</div><div><h2>Polymorphism</h2><div class="st">Pillar 3 · Same method name, different behavior</div></div></div>
+  <p>Many shapes, one interface. You call the same method on different objects and each responds in its own way. Overriding a parent method is the most common form.</p>
+  <div class="code"><div class="ch"><span>polymorphism.py</span><button onclick="cp(this)">copy</button></div>
+<pre data-py>class Cat:
+    def speak(self):
+        return "Meow"
+
+class Dog:
+    def speak(self):
+        return "Woof"
+
+class Cow:
+    def speak(self):
+        return "Moo"
+
+for animal in [Cat(), Dog(), Cow()]:
+    print(animal.speak())               # same call, different result</pre>
+  <div class="out"><pre>Meow
+Woof
+Moo</pre></div></div>
+  <div class="card"><div class="l">Duck typing</div><p>Python doesn't care about the class, only that the object has the method you call. "If it quacks like a duck, it's a duck." That is why the loop above works even though the three classes share no parent.</p></div>
+</section>
+
+<section id="abstract">
+  <div class="sh"><div class="num">06</div><div><h2>Abstraction</h2><div class="st">Pillar 4 · Show what it does, hide how</div></div></div>
+  <p>You press the car's accelerator without knowing how the engine works. In Python, an abstract class defines the methods every child must provide, without writing them. Use the <code>abc</code> module.</p>
+  <div class="code"><div class="ch"><span>abstraction.py</span><button onclick="cp(this)">copy</button></div>
+<pre data-py>from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def area(self):
+        pass                            # children must fill this in
+
+class Circle(Shape):
+    def __init__(self, r):
+        self.r = r
+
+    def area(self):
+        return 3.14 * self.r ** 2
+
+print(Circle(5).area())
+s = Shape()                             # error: can't build an abstract class</pre>
+  <div class="out"><pre>78.5
+TypeError: Can't instantiate abstract class Shape</pre></div></div>
+  <div class="card warm"><div class="l">Don't mix up</div><p>Encapsulation hides <em>data</em> so it can't be misused. Abstraction hides <em>complexity</em> so using the class is easy.</p></div>
+</section>
+
+<section id="decor">
+  <div class="sh"><div class="num">07</div><div><h2>Decorators</h2><div class="st">Built-in ones you will use in classes</div></div></div>
+  <p>A decorator is a line starting with <code>@</code> placed above a function. It wraps the function to add behavior. You already saw <code>@classmethod</code>, <code>@staticmethod</code> and <code>@abstractmethod</code>. The most useful one for beginners is <code>@property</code>.</p>
+  <h3>@property: a method that acts like an attribute</h3>
+  <div class="code"><div class="ch"><span>property.py</span><button onclick="cp(this)">copy</button></div>
+<pre data-py>class Person:
+    def __init__(self, age):
+        self._age = age
+
+    @property
+    def age(self):                      # read: p.age
+        return self._age
+
+    @age.setter
+    def age(self, value):               # write: p.age = 30
+        if value &lt; 0:
+            raise ValueError("Age can't be negative")
+        self._age = value
+
+p = Person(20)
+p.age = 25                              # runs the setter
+print(p.age)
+p.age = -5                              # error</pre>
+  <div class="out"><pre>25
+ValueError: Age can't be negative</pre></div></div>
+  <h3>Writing your own decorator</h3>
+  <div class="code"><div class="ch"><span>my_decorator.py</span><button onclick="cp(this)">copy</button></div>
+<pre data-py>def log(func):
+    def wrapper(*args, **kwargs):
+        print(f"Calling {func.__name__}")
+        return func(*args, **kwargs)
+    return wrapper
+
+@log                                    # same as: greet = log(greet)
+def greet(name):
+    print(f"Hello {name}")
+
+greet("Riya")</pre>
+  <div class="out"><pre>Calling greet
+Hello Riya</pre></div></div>
+</section>
+
+<section id="cheat">
+  <div class="sh"><div class="num">08</div><div><h2>Cheat Sheet</h2><div class="st">Everything on one screen</div></div></div>
+  <div class="tw"><table>
+    <tr><th>Concept</th><th>One line</th><th>Key syntax</th></tr>
+    <tr><td>Class / Object</td><td>Blueprint / thing built from it</td><td><code>class A:</code> · <code>A()</code></td></tr>
+    <tr><td>Encapsulation</td><td>Protect data inside the object</td><td><code>_x</code> · <code>__x</code> · <code>@property</code></td></tr>
+    <tr><td>Inheritance</td><td>Child reuses parent code</td><td><code>class B(A)</code> · <code>super()</code></td></tr>
+    <tr><td>Polymorphism</td><td>Same method, different result</td><td>method overriding</td></tr>
+    <tr><td>Abstraction</td><td>Hide details, force a contract</td><td><code>ABC</code> · <code>@abstractmethod</code></td></tr>
+  </table></div>
+  <div class="card warm"><div class="l">Remember</div><p>Start with plain classes and methods. Add inheritance only when two classes truly share an "is a" relationship, and keep data private when changing it wrongly could cause bugs.</p></div>
+</section>
+
+<footer>python-oop | beginner notes | python 3.10+</footer>
+</div></main></div>
+<script>
+function cp(b){const t=b.closest('.code').querySelector('pre').innerText,d=l=>{b.textContent=l;setTimeout(()=>b.textContent='copy',1400)};
+try{navigator.clipboard.writeText(t).then(()=>d('copied'),()=>d('failed'))}catch(e){d('failed')}}
+document.querySelectorAll('pre[data-py]').forEach(p=>{
+  const kw=/\b(class|def|return|if|else|for|in|import|from|raise|pass|self|cls|super|print)\b/;
+  p.innerHTML=p.innerHTML.split('\n').map(l=>{
+    let ci=l.indexOf('#'),code=ci<0?l:l.slice(0,ci),cm=ci<0?'':'<span class="c">'+l.slice(ci)+'</span>';
+    code=code.replace(/(f?"[^"]*")|(@\w+(?:\.\w+)?)|\b(class|def|return|if|else|for|in|import|from|raise|pass|self|cls)\b|\b(\d+\.?\d*)\b|\b(print|super|ValueError)\b/g,
+      (m,s,d,k,n,f)=>s?'<span class="s">'+s+'</span>':d?'<span class="d">'+d+'</span>':k?'<span class="k">'+k+'</span>':n?'<span class="n">'+n+'</span>':'<span class="f">'+f+'</span>');
+    return code+cm}).join('\n')});
+const L=[...document.querySelectorAll('.nav a')];
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)L.forEach(a=>a.classList.toggle('on',a.hash==='#'+e.target.id))}),{rootMargin:'-35% 0px -60% 0px'});
+document.querySelectorAll('section[id]').forEach(s=>io.observe(s));
+</script>
+</body></html>
