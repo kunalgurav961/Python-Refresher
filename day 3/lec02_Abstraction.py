@@ -19,16 +19,17 @@ class Circle(Shape):
         })
         print(f"Circle having {self.dim.get('rad')} radius has been creaded!")
 
-    def area(self):
-        return self.dim.get('pi') * self.dim.get('rad') * self.dim.get('rad')
+    # def area(self):
+    #     return self.dim.get('pi') * self.dim.get('rad') * self.dim.get('rad')
     
 class Triangle(Shape):
     def __init__(self, base, height):
         super().__init__({"base": base, "height": height})
 
-    def area(self):
-        return 0.5 * self.dim.get("base") * self.dim.get('height')
+    # def area(self):
+    #     return 0.5 * self.dim.get("base") * self.dim.get('height')
 
 cir = Circle(3.14, 3.5)
 tri = Triangle(5, 2.4)
-cir.magic_func()
+# cir.magic_func()
+print(cir.area())
